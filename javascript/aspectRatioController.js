@@ -3,7 +3,7 @@ const _OFF = "Off";  // Don't use the functionality at all
 const _LOCK = '🔒';  // Aspect ratio is "locked"
 const _IMAGE = '🖼️'; // Aspect ratio is "locked" to that of the image
 
-const _MAXIMUM_DIMENSION = 2048;
+const _MAXIMUM_DIMENSION = 4096;
 const _MINIMUM_DIMENSION = 64;
 
 const _IMAGE_INPUT_CONTAINER_IDS = [
@@ -349,9 +349,10 @@ class AspectRatioController {
 
     maintainAspectRatio(changedElement) {
         if (this.aspectRatio === _OFF) return;
+		
         if (!changedElement) {
             const allValues = Object.values(this.inputs).map(x => Number(x.value));
-            changedElement = {value: Math.max(...allValues)};
+            changedElement = {value: Math.min(...allValues)};
         }
 
         const aspectRatio = this.widthRatio / this.heightRatio;
@@ -359,20 +360,19 @@ class AspectRatioController {
 
         if (changedElement.isWidth === undefined) {
             if (this.isLandscapeOrSquare()) {
-                if (changedElement.isWidth) {}
-                w = Math.round(changedElement.value);
-                h = Math.round(changedElement.value / aspectRatio);
-            } else {
-                h = Math.round(changedElement.value);
                 w = Math.round(changedElement.value * aspectRatio);
+                h = Math.round(changedElement.value);
+            } else {
+                h = Math.round(changedElement.value / aspectRatio);
+                w = Math.round(changedElement.value);
             }
         } else {
             if (changedElement.isWidth) {
-                w = Math.round(changedElement.value);
-                h = Math.round(changedElement.value / aspectRatio);
-            } else {
-                h = Math.round(changedElement.value);
                 w = Math.round(changedElement.value * aspectRatio);
+                h = Math.round(changedElement.value);
+            } else {
+                h = Math.round(changedElement.value / aspectRatio);
+                w = Math.round(changedElement.value);
             }
         }
 
