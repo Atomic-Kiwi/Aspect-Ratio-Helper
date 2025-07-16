@@ -350,7 +350,9 @@ class AspectRatioController {
     maintainAspectRatio(changedElement) {
         if (this.aspectRatio === _OFF) return;
 		
-        if (!changedElement) {
+		let reverse = !changedElement;
+		
+        if (reverse) {
             const allValues = Object.values(this.inputs).map(x => Number(x.value));
             changedElement = {value: Math.min(...allValues)};
         }
@@ -360,19 +362,39 @@ class AspectRatioController {
 
         if (changedElement.isWidth === undefined) {
             if (this.isLandscapeOrSquare()) {
-                w = Math.round(changedElement.value * aspectRatio);
-                h = Math.round(changedElement.value);
+				if(reverse){
+					w = Math.round(changedElement.value * aspectRatio);
+					h = Math.round(changedElement.value);
+				}else{
+					w = Math.round(changedElement.value );
+					h = Math.round(changedElement.value / aspectRatio);
+				}
             } else {
-                h = Math.round(changedElement.value / aspectRatio);
-                w = Math.round(changedElement.value);
+				if(reverse){
+					h = Math.round(changedElement.value / aspectRatio);
+					w = Math.round(changedElement.value);
+				}else{
+					h = Math.round(changedElement.value );
+					w = Math.round(changedElement.value * aspectRatio);
+				}
             }
         } else {
             if (changedElement.isWidth) {
-                w = Math.round(changedElement.value * aspectRatio);
-                h = Math.round(changedElement.value);
+				if(reverse){
+					w = Math.round(changedElement.value * aspectRatio);
+					h = Math.round(changedElement.value);
+				}else{
+					w = Math.round(changedElement.value );
+					h = Math.round(changedElement.value / aspectRatio);
+				}
             } else {
-                h = Math.round(changedElement.value / aspectRatio);
-                w = Math.round(changedElement.value);
+				if(reverse){
+					h = Math.round(changedElement.value / aspectRatio);
+					w = Math.round(changedElement.value);
+				}else{
+					h = Math.round(changedElement.value );
+					w = Math.round(changedElement.value * aspectRatio);
+				}
             }
         }
 
